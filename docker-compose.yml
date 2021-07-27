@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    volumes:
+      - ./data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: quiz
+    restart: always
+
+  app:
+    container_name: app
+    build: .
+    volumes:
+      - .:/quiz
+    ports:
+      - 5000:5000
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+    restart: always
+    depends_on:
+      - mongo
+
+volumes:
+  data:
