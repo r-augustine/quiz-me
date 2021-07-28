@@ -4,7 +4,8 @@ const { Schema } = mongoose;
 const topicSchema = new Schema({
   name: {
     type: String,
-    required: true,
+    unique: true,
+    required: [true, "Topic name is required"],
   },
   description: String,
 });

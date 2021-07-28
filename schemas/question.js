@@ -4,7 +4,7 @@ const { Schema, ObjectId } = mongoose;
 const questionSchema = new Schema({
   text: {
     type: String,
-    required: true,
+    required: [true, "Text is required"],
   },
   answers: {
     type: [String],

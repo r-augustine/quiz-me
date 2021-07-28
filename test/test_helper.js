@@ -9,22 +9,29 @@ mongoose.connect("mongodb://app:password@mongo:27017/quiz", {
   useCreateIndex: true,
 });
 mongoose.connection
-  .once("open", () => console.log("Testing database connected..."))
+  .once("open", () => {})
   .on("error", (error) => {
     console.warn("Error connecting to testing database...", error);
-    process.exit();
+    process.exit(1);
   });
 
-// hooks which run befor tests
-beforeEach(async function () {
+async function clearCollections() {
+  // console.log("clearing collections");
   try {
-    await mongoose.connection.collection("users").drop({});
+    await mongoose.connection.collection("users").deleteMany({});
+    await mongoose.connection.collection("quizzes").deleteMany({});
+    await mongoose.connection.collection("topics").deleteMany({});
+    await mongoose.connection.collections("questions").deleteMany({});
   } catch (err) {}
-});
+}
 
-afterEach(async function () {
-  // runs after each test in this block
-  try {
-    await mongoose.connection.collection("users").drop({});
-  } catch (err) {}
+// hooks which run before every tests
+beforeEach(clearCollections);
+
+// hooks which run after ever test
+afterEach(clearCollections);
+
+after(async () => {
+  // close the mongoose connection
+  await mongoose.connection.close();
 });

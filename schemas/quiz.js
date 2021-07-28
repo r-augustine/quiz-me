@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const quizSchema = new Schema({
-  descripton: {
+  description: {
     type: String,
-    required: true,
+    required: [true, "Quiz description is required"],
   },
   questions: {
     type: [Schema.Types.ObjectId],
@@ -12,9 +12,9 @@ const quizSchema = new Schema({
   },
 });
 
-const Test = mongoose.model("Quiz", quizSchema);
+const Quiz = mongoose.model("Quiz", quizSchema);
 
 module.exports = {
-  Test,
+  Quiz,
   quizSchema,
 };
