@@ -6,7 +6,7 @@ const roleSchema = new Schema({
     type: String,
     required: [true, "Role name is required"],
     enum: {
-      values: ["admin", "parent", "child"],
+      values: ["admin", "parent", "student"],
       message: "{VALUE} is not a valid user role",
     },
   },

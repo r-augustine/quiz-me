@@ -25,7 +25,7 @@ var server = http.createServer(app);
 /**
  * Connect to database server
  */
-mongoose.connect("mongodb://mongo:27017/quiz", {
+mongoose.connect("mongodb://app:password@mongo:27017/quiz", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,

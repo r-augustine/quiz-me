@@ -8,6 +8,7 @@ const questionSchema = new Schema({
   },
   answers: {
     type: [String],
+    required: [true, "Please enter an answer for the question"],
   },
   topic: {
     type: ObjectId,
