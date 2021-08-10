@@ -2,7 +2,7 @@
 FROM node:14-alpine
 
 ## set the working directory
-WORKDIR /quiz
+WORKDIR /api
 
 ## copy package.json
 COPY package.json .
@@ -16,5 +16,4 @@ RUN yarn install
 ## copy the rest of files
 COPY . .
 
-## start the application
-CMD ["yarn", "start"]
+CMD [ "yarn", "start" ]

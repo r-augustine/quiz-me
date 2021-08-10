@@ -1,31 +1,59 @@
 version: "3.7"
 services:
+  api:
+    container_name: api
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./server
+    volumes:
+      - ./server:/api
+      - /server/node_modules
+    environment:
+      MONGO_USERNAME: admin
+      MONGO_PASSWORD: password
+      MONGO_URL: mongodb://admin:password@mongo:27017
+    restart: always
+    depends_on:
+      - mongo
+
+  nginx:
+    container_name: nginx
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    restart: always
+    ports:
+      - 3050:80
+    depends_on:
+      - client
+      - api
+
+  client:
+    container_name: client
+    stdin_open: true
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./client
+    volumes:
+      - ./client:/client
+      - /client/node_modules
+    restart: always
+    depends_on:
+      - mongo
+      - api
+
   mongo:
     image: mongo
     container_name: mongo
     ports:
       - 27000:27017
     volumes:
-      - ./data:/data/db
+      - data:/data/db
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
       MONGO_INITDB_DATABASE: quiz
     restart: always
-
-  app:
-    container_name: app
-    build: .
-    volumes:
-      - .:/quiz
-    ports:
-      - 5000:5000
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: example
-    restart: always
-    depends_on:
-      - mongo
 
 volumes:
   data:

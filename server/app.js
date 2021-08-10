@@ -24,10 +24,10 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 // app.use("/users", usersRouter);
-app.use("/api/v1/users", usersRouter);
-app.use("/api/v1/quizzes", quizRouter);
-app.use("/api/v1/questions", questionRouter);
-app.use("/api/v1/topics", topicRouter);
+app.use("/v1/users", usersRouter);
+app.use("/v1/quizzes", quizRouter);
+app.use("/v1/questions", questionRouter);
+app.use("/v1/topics", topicRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
